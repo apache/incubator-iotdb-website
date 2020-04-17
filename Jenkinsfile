@@ -35,80 +35,82 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-          steps {
-            echo 'Installing Dependencies'
-            sh 'npm install'
-          }
-        }
+        //the master branch is deprecated
 
-        stage('Build') {
-            steps {
-                echo 'Building'
-                sh 'npm run build'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying'
-                // Deploy the artifacts using the wagon-maven-plugin.
-                sh 'npm run deploy'
-            }
-        }
-    }
-
-    // Send out notifications on unsuccessful builds.
-    post {
-        // If this build failed, send an email to the list.
-        failure {
-            script {
-                    emailext(
-                        subject: "[BUILD-FAILURE]: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]'",
-                        body: """
-BUILD-FAILURE: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]':
-
-Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]</a>"
-""",
-                        to: "dev@iotdb.apache.org",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-                    )
-            }
-        }
-
-        // If this build didn't fail, but there were failing tests, send an email to the list.
-        unstable {
-            script {
-                    emailext(
-                        subject: "[BUILD-UNSTABLE]: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]'",
-                        body: """
-BUILD-UNSTABLE: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]':
-
-Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]</a>"
-""",
-                        to: "dev@iotdb.apache.org",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-                    )
-            }
-        }
-
-        // Send an email, if the last build was not successful and this one is.
-        success {
-            script {
-                if ((currentBuild.previousBuild != null) && (currentBuild.previousBuild.result != 'SUCCESS')) {
-                    emailext (
-                        subject: "[BUILD-STABLE]: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]'",
-                        body: """
-BUILD-STABLE: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]':
-
-Is back to normal.
-""",
-                        to: "dev@iotdb.apache.org",
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-                    )
-                }
-            }
-        }
+//        stage('Install Dependencies') {
+//          steps {
+//            echo 'Installing Dependencies'
+//            sh 'npm install'
+//          }
+//        }
+//
+//        stage('Build') {
+//            steps {
+//                echo 'Building'
+//                sh 'npm run build'
+//            }
+//        }
+//
+//        stage('Deploy') {
+//            steps {
+//                echo 'Deploying'
+//                // Deploy the artifacts using the wagon-maven-plugin.
+//                sh 'npm run deploy'
+//            }
+//        }
+//    }
+//
+//    // Send out notifications on unsuccessful builds.
+//    post {
+//        // If this build failed, send an email to the list.
+//        failure {
+//            script {
+//                    emailext(
+//                        subject: "[BUILD-FAILURE]: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]'",
+//                        body: """
+//BUILD-FAILURE: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]':
+//
+//Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]</a>"
+//""",
+//                        to: "dev@iotdb.apache.org",
+//                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+//                    )
+//            }
+//        }
+//
+//        // If this build didn't fail, but there were failing tests, send an email to the list.
+//        unstable {
+//            script {
+//                    emailext(
+//                        subject: "[BUILD-UNSTABLE]: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]'",
+//                        body: """
+//BUILD-UNSTABLE: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]':
+//
+//Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]</a>"
+//""",
+//                        to: "dev@iotdb.apache.org",
+//                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+//                    )
+//            }
+//        }
+//
+//        // Send an email, if the last build was not successful and this one is.
+//        success {
+//            script {
+//                if ((currentBuild.previousBuild != null) && (currentBuild.previousBuild.result != 'SUCCESS')) {
+//                    emailext (
+//                        subject: "[BUILD-STABLE]: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]'",
+//                        body: """
+//BUILD-STABLE: Job '${env.JOB_NAME} [${env.BRANCH_NAME}] [${env.BUILD_NUMBER}]':
+//
+//Is back to normal.
+//""",
+//                        to: "dev@iotdb.apache.org",
+//                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+//                    )
+//                }
+//            }
+//        }
     }
 
 }

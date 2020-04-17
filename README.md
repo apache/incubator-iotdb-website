@@ -1,3 +1,15 @@
+# Notice
+
+The source code has been moved to: 
+
+https://github.com/apache/incubator-iotdb/tree/master/site
+
+
+This master branch is deprecated and will be removed in the future
+
+
+The asf-site branch is the compiled static HTMLs.
+
 # IoTDB website
 
 [![Build Status](https://builds.apache.org/view/I/view/IoTDB/job/IoTDB%20Website/badge/icon)](https://builds.apache.org/view/I/view/IoTDB/job/IoTDB%20Website/)
