@@ -2,11 +2,9 @@
 
 The source code has been moved to: 
 
-https://github.com/apache/incubator-iotdb/tree/master/site
-
+https://github.com/apache/iotdb/tree/master/site
 
 This master branch is deprecated and will be removed in the future
-
 
 The asf-site branch is the compiled static HTMLs.
 
@@ -25,6 +23,17 @@ Please make sure node and npm are latest version.
 
 ## Build Setup
 
+in the apache/iotdb repository
+
+Option 1
+
+```
+cd site
+mvn package -DskipTests
+```
+
+Option 2
+
 ``` bash
 # install dependencies
 npm install
@@ -38,7 +47,7 @@ npm run build
 
 ## Deploy Manually
 
-Copy all files in dist/ folder to asf-site branch.
+Copy all files in site/target/vue-source/src/.vuepress/dist to asf-site branch
 
 ## Directory Structure
 
